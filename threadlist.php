@@ -16,27 +16,43 @@
     <?php include 'partials\_header.php'; ?>
     <?php include 'partials\_dbconnect.php'; ?>
 
+    <?php
+        $id=$_GET['catid'];
+        $sql="select * from `category` where `cat_id`=$id ";
+        $res=mysqli_query($con,$sql);
+        while($row=mysqli_fetch_assoc($res)){
+            $catname=$row['cat_name'];
+            $catdesc=$row['cat_desc'];
+        }
+    ?>
     <!-- Category container starts here -->
     <div class="container my-3">
         <div class="jumbotron">
-            <h1 class="display-4">Welcome to </h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <h1 class="display-4">Welcome to <?php echo $catname; ?> </h1>
+            <p class="lead"><?php echo $catdesc; ?></p>
             <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p>1. The Forum exists to provide a safe and friendly place for coders to learn, share and socialise.<br>
+               2. Bad language/profanity is not permitted. As a rule of thumb, if you wouldn't say it in front of a child don't say it here. <br>
+               3. Any form of prejudice is not permitted. <br>
+               4. Spamming is not permitted. <br>
+               5. The use of multiple accounts is not permitted.
+            </p>
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </div>
     </div>
     <div class="container">
         <h1 class="py-2">Browse Questions</h1>
         <div class="media my-3">
-            <img src="images\profile.jpg" width="14px" class="mr-3" alt="...">
+            
             <div class="media-body">
-                <h5 class="mt-0">Media heading Media heading Media heading</h5>
+                <h5 class="mt-0"><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="..."> Media heading Media heading Media heading</h5>
                 <p>Will you do the same for me? It's time to face the music I'm no longer your muse. Heard it's beautiful, be the judge and my girls gonna take a vote. I can feel a phoenix inside of me. Heaven is jealous of our love, angels are crying from up above. Yeah, you take me to utopia.</p>
             </div>
         </div>
     </div>
-
+   
+  
+  
     <?php include 'partials\_footer.php'; ?>
     <!-- <div class="mx-2">
     <button class="btn btn-primary">Login</button>

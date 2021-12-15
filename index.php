@@ -55,14 +55,16 @@
                     // echo $row['cat_id'];
                     // echo $row['cat_name'];
                     $cat=$row['cat_name'];
+                    $id=$row['cat_id'];
                     $desc=$row['cat_desc'];
                     echo '<div class="col-md-4">
                             <div class="card" style="width: 18rem;">
                                 <img src="https://source.unsplash.com/500x400/?' . $cat .',coding" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">' . $cat .'</h5>
+                                    <h5 class="card-title"><a href="threadlist.php?catid=' . $id .'">' . $cat .'</h5></a>
                                     <p class="card-text">' . substr($desc,0,90) .'...</p>
-                                    <a href="#" class="btn btn-primary">View Threads</a>
+                        
+                                    <a href="threadlist.php?catid=' . $id .'" class="btn btn-primary my-4">View Threads</a>
                                 </div>
                                 </div>
                             </div>';
