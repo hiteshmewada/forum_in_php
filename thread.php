@@ -17,19 +17,19 @@
     <?php include 'partials\_dbconnect.php'; ?>
 
     <?php
-    $id = $_GET['catid'];
-    $sql = "select * from `category` where `cat_id`=$id ";
+    $id = $_GET['thread_id'];
+    $sql = "select * from `threads` where `thread_id`=$id ";
     $res = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_assoc($res)) {
-        $catname = $row['cat_name'];
-        $catdesc = $row['cat_desc'];
+        $threadname = $row['thread_title'];
+        $threaddesc = $row['thread_desc'];
     }
     ?>
     <!-- Category container starts here -->
     <div class="container my-3">
         <div class="jumbotron">
-            <h1 class="display-4">Welcome to <?php echo $catname; ?> </h1>
-            <p class="lead"><?php echo $catdesc; ?></p>
+            <h1 class="display-4"><?php echo $threadname; ?> </h1>
+            <p class="lead"><?php echo $threaddesc; ?></p>
             <hr class="my-4">
             <p> <b>Rules: <br></b>
                 1. The Forum exists to provide a safe and friendly place for coders to learn, share and socialise.<br>
@@ -38,12 +38,12 @@
                 4. Spamming is not permitted. <br>
                 5. The use of multiple accounts is not permitted.
             </p>
-            <a class="btn btn-success btn-lg" href="#" role="button">Learn more</a>
+            <p><b>Posted by: <a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></p>
         </div>
     </div>
     <div class="container">
-        <h1 class="py-2">Browse Questions</h1>
-        <?php
+        <h1 class="py-2">Discussions</h1>
+        <!-- <?php
         $id = $_GET['catid'];
         $sql = "select * from `threads` where `thread_cat_id`=$id ";
         $res = mysqli_query($con, $sql);
@@ -53,13 +53,13 @@
             $thread_desc = $row['thread_desc'];
             echo '<div class="media my-3">
                             <div class="media-body">
-                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="...">   <a class="text-dark" href="thread.php?thread_id=' . $thread_id . '">' . $thread_title . '</a></h5>
+                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="...">   <a class="text-dark" href="thread.php">' . $thread_title . '</a></h5>
                                     <p>' . $thread_desc . '</p>
                             </div>
                           </div>';
         }
         ?>
-    </div>
+    </div> -->
 
 
 
