@@ -50,11 +50,22 @@
     include 'partials\_loginmodal.php';
     include 'partials\_signupmodal.php';
      if(isset($_GET['signupsuccess']) and ($_GET['signupsuccess']=="true"))
-        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        echo '<div class="alert alert-success alert-dismissible fade show my-0" role="alert">
                     <strong>Success!</strong> You have registered successfully. Now you can login.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>';
+    else{
+        
+        $err= substr($_GET['signupsuccess'],6,strlen($_GET['signupsuccess']));
+        // var_dump(substr$_GET['signupsuccess']);
+        echo '<div class="alert alert-danger alert-dismissible fade show my-0" role="alert">
+                    <strong>Failure!</strong>  ' .$err.'
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
+    }
      
 ?>

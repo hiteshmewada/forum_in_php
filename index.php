@@ -15,6 +15,40 @@
 <body>
     <?php include 'partials\_header.php'; ?>
     <?php include 'partials\_dbconnect.php'; ?>
+    <!-- // Entry of new category -->
+    <?php
+        $method = $_SERVER['REQUEST_METHOD'];
+        // echo $method;
+        if ($method == 'POST') {
+            // insert into category table of database
+            $catnam = $_POST['newcatname'];
+            $catdesc = $_POST['newcatdesc'];
+            $sql="select * from `category` where `cat_name`='$catnam' ";
+            $res = mysqli_query($con, $sql);
+            $row=mysqli_num_rows($res);
+            if($row>0){
+                echo '<div class="alert alert-danger alert-dismissible fade show my-0" role="alert">
+                    <strong>Success!</strong> Your category is matching with other category. 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>';
+            }
+            else{
+                $sql="insert into `category` (`cat_name`,`cat_desc`) values('$catnam','$catdesc')";
+            
+                $res = mysqli_query($con, $sql);
+                // echo var_dump($res);
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Your category has been added successfully. 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>';
+            }
+           
+        }
+    ?>
     <!-- Slider starts here -->
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -71,8 +105,26 @@
             }
             ?>
 
-
         </div>
+
+    </div>
+    <hr class="my-4">
+    <div class="container">
+        <h1 class="py-2">Create your own category</h1>
+        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="POST">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Enter name of your category</label>
+                <input type="text" class="form-control" placeholder="Name of category" id="newcatname" name="newcatname" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">Make sure you are creating a new category</div>
+            </div>
+            <div class="form-group my-3">
+                <label for="exampleFormControlTextarea1">Enter description of your category</label>
+
+                <textarea class="form-control my-3" placeholder="Description of category" id="newcatdesc" name="newcatdesc" rows="3"></textarea>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success py-2">Submit</button>
+        </form>
     </div>
     <br>
     <br>

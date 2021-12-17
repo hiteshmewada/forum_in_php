@@ -15,7 +15,7 @@
         }
         else{
             if($user_pass!=$user_cpass){
-                $showerr="Passwords do not match";
+                $showerr="Password do not match";
                 // header("location:/index.php?signupsuccess=false&error=$showerr");
                 // exit();
             }
@@ -29,6 +29,6 @@
                 }
             }
         }
-        header("Location : /forum_in_php/index.php?signupsuccess=false,error=$showerr");
+        header("Location: /forum_in_php/index.php?signupsuccess=false,$showerr");
     }
 ?>
