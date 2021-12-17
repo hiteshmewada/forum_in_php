@@ -49,4 +49,12 @@
 </nav>';
     include 'partials\_loginmodal.php';
     include 'partials\_signupmodal.php';
+     if(isset($_GET['signupsuccess']) and ($_GET['signupsuccess']=="true"))
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> You have registered successfully. Now you can login.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
+     
 ?>
