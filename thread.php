@@ -18,12 +18,33 @@
 
     <?php
     $id = $_GET['thread_id'];
-    $sql = "select * from `threads` where `thread_id`=$id ";
+    $sql = "select * from `threads` where `thread_id`='$id' ";
     $res = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_assoc($res)) {
         $threadname = $row['thread_title'];
         $threaddesc = $row['thread_desc'];
     }
+    ?>
+    <?php
+        $method = $_SERVER['REQUEST_METHOD'];
+        // echo $method;
+        if ($method == 'POST') {
+            // insert into comment table of database
+            $comment = $_POST['comment'];
+            // $th_desc = $_POST['desc'];
+            // echo $comment;
+            $sql="insert into `comments` (`com_desc`,`thread_id`,`com_by`) values('$comment','$id','0')";
+            // $sql = "insert into `comments` (`com_desc`,`thread_id`,`com_by`) 
+            // values('$comment','$id','0')  ";
+            $res = mysqli_query($con, $sql);
+            // echo var_dump($res);
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> Your comment has been added successfully. 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>';
+        }
     ?>
     <!-- Category container starts here -->
     <div class="container my-3">
@@ -36,32 +57,62 @@
                 2. Bad language/profanity is not permitted. As a rule of thumb, if you wouldn't say it in front of a child don't say it here. <br>
                 3. Any form of prejudice is not permitted. <br>
                 4. Spamming is not permitted. <br>
-                5. The use of multiple accounts is not permitted.
+                5. The use of multiple accounts is not permitted.<br>
+                6. Comments containing '/' won't be added in comments section.
             </p>
-            <p><b>Posted by: <a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></p>
+            <p>Posted by: <b><a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></p>
         </div>
     </div>
     <div class="container">
+        <h1 class="py-2">Post a Comment</h1>
+        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="POST">
+
+            <div class="form-group my-3">
+                <label for="exampleFormControlTextarea1">Type your comment</label>
+
+                <textarea class="form-control my-3" id="comment" name="comment" rows="3"></textarea>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success py-2">Post Comment</button>
+        </form>
+    </div>
+    <div class="container">
         <h1 class="py-2">Discussions</h1>
-        <!-- <?php
-        $id = $_GET['catid'];
-        $sql = "select * from `threads` where `thread_cat_id`=$id ";
+        <?php
+        $id = $_GET['thread_id'];
+        $sql = "select * from `comments` where `thread_id`=$id ";
         $res = mysqli_query($con, $sql);
+        $nores = true;
         while ($row = mysqli_fetch_assoc($res)) {
-            $thread_id = $row['thread_id'];
-            $thread_title = $row['thread_title'];
-            $thread_desc = $row['thread_desc'];
+            $nores = false;
+            $id = $row['com_id'];
+
+            $com = $row['com_desc'];
+            $dt=$row['com_dt'];
             echo '<div class="media my-3">
                             <div class="media-body">
-                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="...">   <a class="text-dark" href="thread.php">' . $thread_title . '</a></h5>
-                                    <p>' . $thread_desc . '</p>
+                                    
+                                    <p class="font-weight-bold my-0"><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="..."> Anonymous User at ' . $dt . ' <br><p class="mx-5">' . $com . '</p></p>
                             </div>
                           </div>';
         }
+        if ($nores == true) {
+            echo '<div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                <p class="display-4">No Comments Found</p>
+                <p class="lead">Be the first person to comment.
+                </p>
+                </div>
+            </div><br><br>';
+        }
+        
         ?>
-    </div> -->
+    </div>
 
 
+    <br>
+    <br>
+    <br>
 
     <?php include 'partials\_footer.php'; ?>
 
