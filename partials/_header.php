@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    
     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">iForum</a>
@@ -30,19 +32,29 @@
                     <a class="nav-link" href="contact.php" tabindex="-1">Contact</a>
                 </li>
             </ul>
-            <div class="mx-2">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-success mx-2" type="submit">Search</button>
-                   
-                    <button type="button" class="btn btn-outline-success mr-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        Login
-                    </button>
-                    <button type="button" class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#signupModal" >Signup</button>
-                </form>
+            <div class="row mx-2">';
+            if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
+                echo '<form class="d-flex justify-content-end">
+                        <p class="text-light my-2 "> Welcome '. $_SESSION['useremail'].' </p>
+                        <a href="partials\_logout.php"  class="btn btn-outline-success mx-2"  >LogOut</a>
+                    </form>
+                ';
+            }
+            else{
+                echo '<form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success mx-2" type="submit">Search</button>
+               
+                <button type="button" class="btn btn-outline-success mr-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Login
+                </button>
+                <button type="button" class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#signupModal" >Signup</button>
+            </form>';
+            }
+                
                 
 
-            </div>
+           echo ' </div>
             
         </div>
     </div>
@@ -56,7 +68,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>';
-    else{
+    else if(isset($_GET['signupsuccess'])){
         
         $err= substr($_GET['signupsuccess'],6,strlen($_GET['signupsuccess']));
         // var_dump(substr$_GET['signupsuccess']);

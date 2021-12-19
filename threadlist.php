@@ -33,8 +33,9 @@
         // insert into thread table of database
         $th_tit = $_POST['title'];
         $th_desc = $_POST['desc'];
+        $no=$_POST["sno"];
         $sql = "insert into `threads` (`thread_title`,`thread_desc`,`thread_cat_id`,`thread_user`) 
-            values('$th_tit','$th_desc','$id','0')  ";
+            values('$th_tit','$th_desc','$id','$no')  ";
         $res = mysqli_query($con, $sql);
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Success!</strong> Your thread has been added successfully. Wait for the community members to respond.
@@ -62,23 +63,42 @@
             <a class="btn btn-success btn-lg" href="#" role="button">Learn more</a>
         </div>
     </div>
-    <div class="container">
-        <h1 class="py-2">Start a Discussion</h1>
-        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="POST">
-            <div class="form-group">
-                <label for="title">Problem Title</label>
-                <input type="text" class="form-control" id="title" name="title">
-                <small id="emailHelp" class="form-text text-muted">Keep your title as short and crisp as possible.
-                </small>
-            </div>
-            <div class="form-group my-3">
-                <label for="exampleFormControlTextarea1">Elaborate your concern</label>
-                <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-success py-2">Submit</button>
-        </form>
-    </div>
+    
+        <?php
+                if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
+                        echo '<div class="container"> 
+                                    <h1 class="py-2">Start a Discussion</h1>
+                                    <form action="'.$_SERVER["REQUEST_URI"].'"method="POST">
+                            <div class="form-group">
+                                <label for="title">Problem Title</label>
+                                <input type="text" class="form-control" id="title" name="title">
+                                <small id="emailHelp" class="form-text text-muted">Keep your title as short and crisp as possible.
+                                </small>
+                            </div>
+                            <input type="hidden" name="sno" value="'.$_SESSION['sno'].'">
+                            <div class="form-group my-3">
+                                <label for="exampleFormControlTextarea1">Elaborate your concern</label>
+                                <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+                                
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success py-2">Submit</button>
+                        </form>
+                    </div>';
+                }
+                else{
+                    echo ' 
+                            <div class="container">
+                            <h1 class="py-2">Start a Discussion</h1>
+                            <p class="lead">
+                                You are not logged in to start a discussion... Please login to start and contribute in discussion.
+                            </p>
+                            </div>';
+                }
+        ?>
+   
+
+        
     <div class="container">
         <h1 class="py-4">Browse Questions</h1>
         <?php
@@ -92,9 +112,13 @@
             $thread_title = $row['thread_title'];
             $thread_desc = $row['thread_desc'];
             $dt=$row['thread_dt'];
+            $thread_user_id=$row['thread_id'];
+            $sql2="select * from `users` where sno='$thread_user_id' ";
+            $res2 = mysqli_query($con, $sql2);
+            $row2 = mysqli_fetch_assoc($res2);
             echo '<div class="media my-3">
                             <div class="media-body">
-                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="..."> Anonymous User at ' . $dt . ' <br>  <a class="text-dark mx-5" href="thread.php?thread_id=' . $thread_id . '">' . $thread_title . '</a></h5>
+                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-4" alt="..."> Asked By- '.$row2['user_name'].' at ' . $dt . ' <br>  <a class="text-dark mx-5" href="thread.php?thread_id=' . $thread_id . '">' . $thread_title . '</a></h5>
                                     <p class="mx-5">' . $thread_desc . '</p>
                                     
                             </div>

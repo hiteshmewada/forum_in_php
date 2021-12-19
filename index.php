@@ -91,7 +91,7 @@
                 $cat = $row['cat_name'];
                 $id = $row['cat_id'];
                 $desc = $row['cat_desc'];
-                echo '<div class="col-md-4">
+                echo '<div class="col-md-4 my-4">
                             <div class="card" style="width: 18rem;">
                                 <img src="https://source.unsplash.com/500x400/?' . $cat . ',coding" class="card-img-top" alt="...">
                                 <div class="card-body">

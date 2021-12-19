@@ -31,9 +31,10 @@
         if ($method == 'POST') {
             // insert into comment table of database
             $comment = $_POST['comment'];
+            $no=$_POST["sno"];
             // $th_desc = $_POST['desc'];
             // echo $comment;
-            $sql="insert into `comments` (`com_desc`,`thread_id`,`com_by`) values('$comment','$id','0')";
+            $sql="insert into `comments` (`com_desc`,`thread_id`,`com_by`) values('$comment','$id','$no')";
             // $sql = "insert into `comments` (`com_desc`,`thread_id`,`com_by`) 
             // values('$comment','$id','0')  ";
             $res = mysqli_query($con, $sql);
@@ -63,19 +64,36 @@
             <p>Posted by: <b><a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></p>
         </div>
     </div>
-    <div class="container">
-        <h1 class="py-2">Post a Comment</h1>
-        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="POST">
-
-            <div class="form-group my-3">
-                <label for="exampleFormControlTextarea1">Type your comment</label>
-
-                <textarea class="form-control my-3" id="comment" name="comment" rows="3"></textarea>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-success py-2">Post Comment</button>
-        </form>
-    </div>
+    <?php
+                if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
+                        echo '<div class="container">
+                        <h1 class="py-2">Post a Comment</h1>
+                        <form action="'.$_SERVER["REQUEST_URI"].'" method="POST">
+                
+                            <div class="form-group my-3">
+                                <label for="exampleFormControlTextarea1">Type your comment</label>
+                
+                                <textarea class="form-control my-3" id="comment" name="comment" rows="3"></textarea>
+                                <input type="hidden" name="sno" value="'.$_SESSION['sno'].'">
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success py-2">Post Comment</button>
+                        </form>
+                    </div>
+                            ';
+                }
+                
+                else{
+                    echo ' 
+                            <div class="container">
+                            <h1 class="py-2">Post a comment</h1>
+                            <p class="lead">
+                                You are not logged in to type a comment.. Please login to start and contribute in discussion.
+                            </p>
+                            </div>';
+                }
+        ?>
+    
     <div class="container">
         <h1 class="py-2">Discussions</h1>
         <?php
@@ -89,10 +107,14 @@
 
             $com = $row['com_desc'];
             $dt=$row['com_dt'];
+            $com_user_id=$row['com_by'];
+            $sql2="select * from `users` where sno='$com_user_id' ";
+            $res2 = mysqli_query($con, $sql2);
+            $row2 = mysqli_fetch_assoc($res2);
+
             echo '<div class="media my-3">
                             <div class="media-body">
-                                    
-                                    <p class="font-weight-bold my-0"><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3" alt="..."> Anonymous User at ' . $dt . ' <br><p class="mx-5">' . $com . '</p></p>
+                                    <p class="font-weight-bold my-0 text-dark"><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-3 " alt="..."> Asked By- '.$row2['user_name'].' at ' . $dt . ' <br></p><p class="mx-5">' . $com . '</p>
                             </div>
                           </div>';
         }
