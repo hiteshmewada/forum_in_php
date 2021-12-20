@@ -17,15 +17,16 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
+                        Top Categories
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+                    $sql="select * from `category` LIMIT 3";
+                        
+                    $res=mysqli_query($con,$sql);
+                    while($row=mysqli_fetch_assoc($res)){
+                        echo '<li><a class="dropdown-item" href="threadlist.php?catid='.$row['cat_id'].'">'.$row['cat_name'].'</a></li>';
+                    }
+                    echo ' 
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -34,9 +35,11 @@
             </ul>
             <div class="row mx-2">';
             if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
-                echo '<form class="d-flex justify-content-end">
-                        <p class="text-light my-2 "> Welcome '. $_SESSION['useremail'].' </p>
-                        <a href="partials\_logout.php"  class="btn btn-outline-success mx-2"  >LogOut</a>
+                echo '<form class="d-flex ">
+                <input style="width:100px;height:50px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button style="width:100px;height:50px;" class="btn btn-success mx-2" type="submit">Search</button>
+                <p  style="width:150px;height:40px;" class="text-light my-2 "> Welcome <b>'. $_SESSION['user_name'].'</b> </p>
+                <a  style="width:100px;height:50px;" href="partials\_logout.php"  class="btn btn-outline-success mx-2 my-0"  >LogOut</a>
                     </form>
                 ';
             }

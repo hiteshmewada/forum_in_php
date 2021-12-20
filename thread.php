@@ -13,8 +13,8 @@
 </head>
 
 <body>
-    <?php include 'partials\_header.php'; ?>
     <?php include 'partials\_dbconnect.php'; ?>
+    <?php include 'partials\_header.php'; ?>
 
     <?php
     $id = $_GET['thread_id'];
@@ -23,6 +23,11 @@
     while ($row = mysqli_fetch_assoc($res)) {
         $threadname = $row['thread_title'];
         $threaddesc = $row['thread_desc'];
+        $thread_user_id = $row['thread_user'];
+        $sql2 = "select user_name from `users` where `sno`='$thread_user_id' ";
+        $res2=mysqli_query($con,$sql2);
+        $row2 = mysqli_fetch_assoc($res2);
+        $posted=$row2['user_name'];
     }
     ?>
     <?php
@@ -31,6 +36,8 @@
         if ($method == 'POST') {
             // insert into comment table of database
             $comment = $_POST['comment'];
+            $comment=str_replace("<","&lt",$comment);
+            $comment=str_replace(">","&gt",$comment);
             $no=$_POST["sno"];
             // $th_desc = $_POST['desc'];
             // echo $comment;
@@ -61,7 +68,7 @@
                 5. The use of multiple accounts is not permitted.<br>
                 6. Comments containing '/' won't be added in comments section.
             </p>
-            <p>Posted by: <b><a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></p>
+            <p>Posted by: <b><?php echo $posted;?></b></p>
         </div>
     </div>
     <?php

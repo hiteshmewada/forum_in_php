@@ -12,8 +12,8 @@
             <form action="partials\_handlelogin.php" method="POST">
             <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="loginemail" name="loginemail" aria-describedby="emailHelp">
+                        <label for="exampleInputEmail1" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="loginname" name="loginname" aria-describedby="emailHelp">
                         
                     </div>
                     <div class="mb-3">

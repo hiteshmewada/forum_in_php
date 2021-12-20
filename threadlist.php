@@ -13,16 +13,24 @@
 </head>
 
 <body>
-    <?php include 'partials\_header.php'; ?>
     <?php include 'partials\_dbconnect.php'; ?>
+    <?php include 'partials\_header.php'; ?>
 
     <?php
     $id = $_GET['catid'];
+    // $posted= 'hitehs';
     $sql = "select * from `category` where `cat_id`=$id ";
     $res = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_assoc($res)) {
         $catname = $row['cat_name'];
         $catdesc = $row['cat_desc'];
+        $cat_user_name = $row['cat_user_name'];
+        $sql2 = "select user_name from `users` where `sno`='$cat_user_name' ";
+        $res2 = mysqli_query($con, $sql2);
+        $row2 = mysqli_fetch_assoc($res2);
+        $posted = $row2['user_name'];
+        // $no=$_POST['sno'];
+
     }
 
     ?>
@@ -32,8 +40,17 @@
     if ($method == 'POST') {
         // insert into thread table of database
         $th_tit = $_POST['title'];
+        $th_tit = str_replace("<", "&lt", $th_tit);
+        $th_tit = str_replace(">", "&gt", $th_tit);
         $th_desc = $_POST['desc'];
-        $no=$_POST["sno"];
+        $desc = str_replace("<", "&lt", $desc);
+        $desc = str_replace(">", "&gt", $desc);
+        $no = $_POST['sno'];
+        // $sql2 = "select user_name from `users` where `sno`='$no' ";
+        // $res2=mysqli_query($con,$sql2);
+        // $row2 = mysqli_fetch_assoc($res2);
+        // $posted=$row2['user_name'];
+        // echo $posted;
         $sql = "insert into `threads` (`thread_title`,`thread_desc`,`thread_cat_id`,`thread_user`) 
             values('$th_tit','$th_desc','$id','$no')  ";
         $res = mysqli_query($con, $sql);
@@ -59,23 +76,23 @@
                 5. The use of multiple accounts is not permitted.<br>
                 6. Questions containing '/' won't be added in discussion section.
             </p>
-            <p>Posted by: <b> <a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></p>
+            <p>Posted by: <b><?php echo $posted; ?></b></p>
             <a class="btn btn-success btn-lg" href="#" role="button">Learn more</a>
         </div>
     </div>
-    
-        <?php
-                if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
-                        echo '<div class="container"> 
+
+    <?php
+    if (isset($_SESSION['loggedin']) and $_SESSION['loggedin'] == true) {
+        echo '<div class="container"> 
                                     <h1 class="py-2">Start a Discussion</h1>
-                                    <form action="'.$_SERVER["REQUEST_URI"].'"method="POST">
+                                    <form action="' . $_SERVER["REQUEST_URI"] . '"method="POST">
                             <div class="form-group">
                                 <label for="title">Problem Title</label>
                                 <input type="text" class="form-control" id="title" name="title">
                                 <small id="emailHelp" class="form-text text-muted">Keep your title as short and crisp as possible.
                                 </small>
                             </div>
-                            <input type="hidden" name="sno" value="'.$_SESSION['sno'].'">
+                            <input type="hidden" name="sno" value="' . $_SESSION['sno'] . '">
                             <div class="form-group my-3">
                                 <label for="exampleFormControlTextarea1">Elaborate your concern</label>
                                 <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
@@ -85,20 +102,19 @@
                             <button type="submit" class="btn btn-success py-2">Submit</button>
                         </form>
                     </div>';
-                }
-                else{
-                    echo ' 
+    } else {
+        echo ' 
                             <div class="container">
                             <h1 class="py-2">Start a Discussion</h1>
                             <p class="lead">
                                 You are not logged in to start a discussion... Please login to start and contribute in discussion.
                             </p>
                             </div>';
-                }
-        ?>
-   
+    }
+    ?>
 
-        
+
+
     <div class="container">
         <h1 class="py-4">Browse Questions</h1>
         <?php
@@ -111,14 +127,15 @@
             $thread_id = $row['thread_id'];
             $thread_title = $row['thread_title'];
             $thread_desc = $row['thread_desc'];
-            $dt=$row['thread_dt'];
-            $thread_user_id=$row['thread_id'];
-            $sql2="select * from `users` where sno='$thread_user_id' ";
+
+            $dt = $row['thread_dt'];
+            $thread_user_id = $row['thread_user'];
+            $sql2 = "select * from `users` where sno='$thread_user_id' ";
             $res2 = mysqli_query($con, $sql2);
             $row2 = mysqli_fetch_assoc($res2);
             echo '<div class="media my-3">
                             <div class="media-body">
-                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-4" alt="..."> Asked By- '.$row2['user_name'].' at ' . $dt . ' <br>  <a class="text-dark mx-5" href="thread.php?thread_id=' . $thread_id . '">' . $thread_title . '</a></h5>
+                                    <h5 class="mt-0 "><img src="images\profile.jpg" class="inline mr-3" width="21px" height="25px" class="mr-4" alt="..."> Asked By- ' . $row2['user_name'] . ' at ' . $dt . ' <br>  <a class="text-dark mx-5" href="thread.php?thread_id=' . $thread_id . '">' . $thread_title . '</a></h5>
                                     <p class="mx-5">' . $thread_desc . '</p>
                                     
                             </div>

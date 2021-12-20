@@ -14,7 +14,10 @@
 
 <body>
     <?php include 'partials\_header.php'; ?>
+    <div class="container">
 
+        <h1 class="my-4">Creator: <b><a href="https://www.linkedin.com/in/hitu04/" target="_blank">Hitesh Mewada</a></b></h1>
+    </div>
     <?php include 'partials\_footer.php'; ?>
     <!-- <div class="mx-2">
     <button class="btn btn-primary">Login</button>

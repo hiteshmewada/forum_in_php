@@ -18,7 +18,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">User name</label>
-                        <input type="text" placeholder="Enter your username" class="form-control" id="signupuser" name="signupuser" aria-describedby="emailHelp">
+                        <input type="text" maxlength="10" placeholder="Enter your username" class="form-control" id="signupuser" name="signupuser" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">You will be identified by your username on this website.</div>
                     </div>
                     <div class="mb-3">

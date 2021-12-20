@@ -13,8 +13,8 @@
 </head>
 
 <body>
-    <?php include 'partials\_header.php'; ?>
     <?php include 'partials\_dbconnect.php'; ?>
+    <?php include 'partials\_header.php'; ?>
     <!-- // Entry of new category -->
     <?php
         $method = $_SERVER['REQUEST_METHOD'];
@@ -23,6 +23,8 @@
             // insert into category table of database
             $catnam = $_POST['newcatname'];
             $catdesc = $_POST['newcatdesc'];
+            $no=$_POST['sno'];
+            
             $sql="select * from `category` where `cat_name`='$catnam' ";
             $res = mysqli_query($con, $sql);
             $row=mysqli_num_rows($res);
@@ -35,11 +37,11 @@
                   </div>';
             }
             else{
-                $sql="insert into `category` (`cat_name`,`cat_desc`) values('$catnam','$catdesc')";
+                $sql="insert into `category` (`cat_name`,`cat_desc`,`cat_user_name`) values('$catnam','$catdesc','$no')";
             
                 $res = mysqli_query($con, $sql);
                 // echo var_dump($res);
-                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                echo '<div class="alert alert-success alert-dismissible fade show my-0" role="alert">
                         <strong>Success!</strong> Your category has been added successfully. 
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -109,23 +111,36 @@
 
     </div>
     <hr class="my-4">
-    <div class="container">
-        <h1 class="py-2">Create your own category</h1>
-        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="POST">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Enter name of your category</label>
-                <input type="text" class="form-control" placeholder="Name of category" id="newcatname" name="newcatname" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">Make sure you are creating a new category</div>
-            </div>
-            <div class="form-group my-3">
-                <label for="exampleFormControlTextarea1">Enter description of your category</label>
-
-                <textarea class="form-control my-3" placeholder="Description of category" id="newcatdesc" name="newcatdesc" rows="3"></textarea>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-success py-2">Submit</button>
-        </form>
-    </div>
+    <?php
+        if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
+            echo '<div class="container">
+                <h1 class="py-2">Create a new category</h1>
+                <form action="'.$_SERVER["REQUEST_URI"].' " method="POST">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Enter name of category</label>
+                        <input type="text" class="form-control" placeholder="Name of category" id="newcatname" name="newcatname" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Make sure you are creating a new category</div>
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="exampleFormControlTextarea1">Enter description of category</label>
+        
+                        <textarea class="form-control my-3" placeholder="Description of category" id="newcatdesc" name="newcatdesc" rows="3"></textarea>
+                        <input type="hidden" name="sno" value="'.$_SESSION['sno'].'">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success py-2">Submit</button>
+                </form>
+            </div>';
+        }
+        else{
+            echo '<div class="container">
+            <h1 class="py-2">Create a new category</h1>
+            <p class="lead">
+                You are not logged in to create a category.. Please login for creating a new category.
+            </p>
+        </div>';
+        }
+    ?>
     <br>
     <br>
     <br>

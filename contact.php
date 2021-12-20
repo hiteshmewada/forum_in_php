@@ -13,8 +13,67 @@
 </head>
 
 <body>
+<?php include 'partials\_dbconnect.php'; ?>
     <?php include 'partials\_header.php'; ?>
-
+    <?php
+    $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == 'POST') {
+            // insert into contacts table of database
+            $con_email = $_POST['conemail'];
+            $conrat = $_POST['conrate'];
+            $confeed = $_POST['confeed'];
+            $confeed = str_replace("<", "&lt", $confeed);
+            $confeed = str_replace(">", "&gt", $confeed);
+            // $sql2 = "select user_name from `users` where `sno`='$no' ";
+            // $res2=mysqli_query($con,$sql2);
+            // $row2 = mysqli_fetch_assoc($res2);
+            // $posted=$row2['user_name'];
+            // echo $posted;
+            $sql = "insert into `contacts` (`con_email`,`con_rat`,`con_feed`) 
+                values('$con_email','$conrat','$confeed')  ";
+            $res = mysqli_query($con, $sql);
+            if($res){
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> Your valuable feedback has been added successfully. We will contact you soon.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>';
+            }
+            else{
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Failed!</strong> Your record has not been added successfully. Wait for the problem to resolve.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>';
+            }
+        }
+    ?>
+    <div class="container">
+        <h1 class="text-center my-3">Contact Us</h1>
+        <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Email address</label>
+                <input type="email" class="form-control my-1" id="conemail" name="conemail" placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect2">Rate us</label>
+                <select multiple class="form-control" id="conrate" name="conrate">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Feedback</label>
+                <textarea class="form-control my-2" id="confeed" name="confeed" rows="3"></textarea>
+            </div>
+            <button class="btn btn-success my-2">Submit</button>
+        </form>
+    </div>
     <?php include 'partials\_footer.php'; ?>
     <!-- <div class="mx-2">
     <button class="btn btn-primary">Login</button>
