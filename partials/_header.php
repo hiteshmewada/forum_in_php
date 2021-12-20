@@ -35,10 +35,10 @@
             </ul>
             <div class="row mx-2">';
             if(isset($_SESSION['loggedin']) and $_SESSION['loggedin']==true){
-                echo '<form class="d-flex ">
-                <input style="width:100px;height:50px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                echo '<form class="d-flex " method="get" action="search.php">
+                <input style="width:200px;height:50px;" class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search">
                 <button style="width:100px;height:50px;" class="btn btn-success mx-2" type="submit">Search</button>
-                <p  style="width:150px;height:40px;" class="text-light my-2 "> Welcome <b>'. $_SESSION['user_name'].'</b> </p>
+                <p  style="width:150px;height:40px;" class="text-light my-2 mx-0 "> Welcome <b>'. $_SESSION['user_name'].'</b> </p>
                 <a  style="width:100px;height:50px;" href="partials\_logout.php"  class="btn btn-outline-success mx-2 my-0"  >LogOut</a>
                     </form>
                 ';

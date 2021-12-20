@@ -18,6 +18,7 @@
 
     <?php
     $id = $_GET['thread_id'];
+    // echo var_dump($_GET['thread_id']);
     $sql = "select * from `threads` where `thread_id`='$id' ";
     $res = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_assoc($res)) {
